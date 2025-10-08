@@ -351,6 +351,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case tea.KeyCtrlC, tea.KeyEsc:
 			return m, tea.Quit
 
+		case tea.KeyCtrlU:
+			// Clear the input field
+			m.textInput.SetValue("")
+			return m, nil
+
 		case tea.KeyEnter:
 			if m.state == stateListVideos {
 				// User confirmed deletion choice
@@ -361,6 +366,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				} else {
 					// Skip deletion, go to prompt
 					m.state = statePrompt
+					m.textInput.SetValue(m.cfg.LastPrompt)
 					m.textInput.Placeholder = "Describe the video you want to generate..."
 					m.textInput.Focus()
 					return m, nil
@@ -379,6 +385,24 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.progress = 0
 				m.skipReference = false
 				// Keep referenceImg set so it becomes the default
+				m.textInput.SetValue(previousPrompt)
+				m.textInput.Placeholder = "Describe the video you want to generate..."
+				m.textInput.Focus()
+				return m, nil
+			}
+			if m.state == stateError {
+				// Retry after error - preserve prompt and allow editing
+				previousPrompt := m.prompt
+				m.state = statePrompt
+				m.videoID = ""
+				m.outputPath = ""
+				m.err = nil
+				m.message = ""
+				m.pollAttempts = 0
+				m.elapsedSeconds = 0
+				m.progress = 0
+				m.skipReference = false
+				// Pre-fill with previous prompt for easy editing
 				m.textInput.SetValue(previousPrompt)
 				m.textInput.Placeholder = "Describe the video you want to generate..."
 				m.textInput.Focus()
@@ -497,6 +521,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.deletingVideoIndex = 0
 		m.deletingVideoTotal = 0
 		m.state = statePrompt
+		m.textInput.SetValue(m.cfg.LastPrompt)
 		m.textInput.Placeholder = "Describe the video you want to generate..."
 		m.textInput.Focus()
 		return m, nil
@@ -548,6 +573,7 @@ func (m Model) handleEnter() (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		}
 		m.prompt = value
+		m.cfg.LastPrompt = value
 		m.state = stateModel
 		// Model selection is now handled by arrow keys, not text input
 		m.message = ""
@@ -966,6 +992,8 @@ func (m Model) View() string {
 		sb.WriteString(errorStyle.Render("✗ Error occurred:"))
 		sb.WriteString("\n")
 		sb.WriteString(errorStyle.Render(m.err.Error()))
+		sb.WriteString("\n\n")
+		sb.WriteString(promptStyle.Render("Press Enter to try again with a different prompt..."))
 	}
 
 	sb.WriteString("\n\n")

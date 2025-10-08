@@ -14,6 +14,7 @@ type Config struct {
 	Model        string `toml:"model"`
 	Duration     string `toml:"duration"`
 	Size         string `toml:"size"`
+	LastPrompt   string `toml:"last_prompt"`
 }
 
 func getConfigPath() (string, error) {
