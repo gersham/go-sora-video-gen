@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI assistants when working with code in this repository.
 
 ## Repository Overview
 
@@ -26,6 +26,8 @@ This is a **Go CLI application** for generating videos using OpenAI's Sora API. 
 ├── Makefile                     # Build commands
 ├── README.md                    # User documentation
 ├── CHANGELOG.md                 # Version history
+├── CLAUDE.md                    # Claude Code entry point (references AGENTS.md)
+├── AGENTS.md                    # AI assistant documentation (this file)
 └── LICENSE                      # MIT License
 ```
 

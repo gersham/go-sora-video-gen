@@ -11,8 +11,8 @@ CLI tool for generating videos using OpenAI's Sora API. Interactive TUI and non-
 
 ```bash
 # Build from source
-git clone https://github.com/telemetry/video-gen.git
-cd video-gen
+git clone https://github.com/gersham/go-sora-video-gen.git
+cd go-sora-video-gen
 make build
 ./dist/video-gen
 
