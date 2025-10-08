@@ -2,6 +2,8 @@
 
 CLI tool for generating videos using OpenAI's Sora API. Interactive TUI and non-interactive modes supported.
 
+![Video Generator Screenshot](screenshot.png)
+
 ## Requirements
 
 - Go 1.21+ (for building from source)
