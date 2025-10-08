@@ -131,6 +131,11 @@ make build
 
 ---
 
+## [1.1.1] - 2025-10-07
+
+### Fixed
+- GitHub Actions release workflow archive structure
+
 ## [1.1.0] - 2025-10-07
 
 ### Added
