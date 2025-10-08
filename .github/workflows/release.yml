@@ -34,22 +34,43 @@ jobs:
           # Create releases directory
           mkdir -p releases
 
+          # Function to create proper archive structure
+          create_archive() {
+            local platform=$1
+            local binary=$2
+            local archive_name=$3
+
+            # Create temp directory with proper structure
+            mkdir -p "tmp/video-gen"
+            cp "dist/${binary}" "tmp/video-gen/"
+            cp LICENSE "tmp/video-gen/"
+            cp README.md "tmp/video-gen/"
+
+            # Create archive
+            cd tmp
+            if [[ "$archive_name" == *.tar.gz ]]; then
+              tar -czf "../releases/${archive_name}" video-gen/
+            else
+              zip -r "../releases/${archive_name}" video-gen/
+            fi
+            cd ..
+            rm -rf tmp
+          }
+
           # macOS Intel
-          tar -czf releases/video-gen-darwin-amd64.tar.gz -C dist video-gen-darwin-amd64 LICENSE README.md
+          create_archive "darwin-amd64" "video-gen-darwin-amd64" "video-gen-darwin-amd64.tar.gz"
 
           # macOS Apple Silicon
-          tar -czf releases/video-gen-darwin-arm64.tar.gz -C dist video-gen-darwin-arm64 LICENSE README.md
+          create_archive "darwin-arm64" "video-gen-darwin-arm64" "video-gen-darwin-arm64.tar.gz"
 
           # Linux amd64
-          tar -czf releases/video-gen-linux-amd64.tar.gz -C dist video-gen-linux-amd64 LICENSE README.md
+          create_archive "linux-amd64" "video-gen-linux-amd64" "video-gen-linux-amd64.tar.gz"
 
           # Linux ARM64
-          tar -czf releases/video-gen-linux-arm64.tar.gz -C dist video-gen-linux-arm64 LICENSE README.md
+          create_archive "linux-arm64" "video-gen-linux-arm64" "video-gen-linux-arm64.tar.gz"
 
           # Windows
-          cd dist
-          zip ../releases/video-gen-windows-amd64.zip video-gen-windows-amd64.exe ../LICENSE ../README.md
-          cd ..
+          create_archive "windows-amd64" "video-gen-windows-amd64.exe" "video-gen-windows-amd64.zip"
 
       - name: Generate checksums
         run: |
