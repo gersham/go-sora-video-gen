@@ -131,16 +131,46 @@ make build
 
 ---
 
+## [1.1.0] - 2025-10-07
+
+### Added
+- 🎛️ **Non-interactive CLI mode** with `-p` flag for automation
+- 🔑 **Smart prompt management** - Last prompt saved and pre-filled on restart
+- ⌨️ **Keyboard shortcuts** - Ctrl+U to clear input field
+- 🔄 **Error recovery** - Press Enter after error to retry with previous prompt pre-filled
+- 🎬 **Model selection** - Choose between sora-2 and sora-2-pro
+- ⏱️ **Duration options** - Select 4s, 8s, or 12s (previously only 4s)
+- 📐 **Multiple resolutions** - 1280x720, 720x1280, 1792x1024, 1024x1792
+- 🖼️ **Auto-resize reference images** - Images automatically resized to match video dimensions
+- 🗑️ **Video management** - List and delete old videos on startup
+- 🐛 **Debug mode** - `-d` flag for detailed API logging
+- 📦 **Enhanced config** - `last_prompt` field for persistence
+
+### Changed
+- ✨ Improved error handling with structured API error objects
+- 📊 Better progress tracking with elapsed time display
+- 🔄 Optimized polling strategy (10s → 5s → 30s based on progress)
+- 📥 Now uses `/videos/{id}/content` endpoint for downloads (more reliable)
+- 🎨 Enhanced TUI with arrow-key navigation for selections
+- 📝 Comprehensive documentation updates
+
+### Fixed
+- 🐛 JSON unmarshal error when API returns error objects
+- 🖼️ Reference image dimension mismatch issues (now auto-resizes)
+- ⏱️ Timeout handling for video content availability
+
+### Developer
+- 📚 Added CLAUDE.md for AI assistant guidance
+- 🛠️ Improved build system with cross-platform support
+- 🧪 Enhanced error recovery and retry logic
+
 ## [Unreleased]
 
 ### Planned Features
-- [ ] CLI flags for automation
 - [ ] Batch processing from file
 - [ ] Progress bar for downloads
 - [ ] History tracking
-- [ ] Custom resolution support
 - [ ] Video preview before download
-- [ ] Verbose/debug mode
 - [ ] Configuration presets
 
 ---

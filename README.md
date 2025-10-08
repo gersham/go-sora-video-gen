@@ -41,6 +41,15 @@ Cross-platform binaries are created in `./dist/`, archives in `./releases/`.
 
 The TUI guides you through video generation. On first run, you'll enter your OpenAI API key which is saved to `~/.config/telemetryos-video-gen.toml`.
 
+**Keyboard Shortcuts:**
+- `Ctrl+U` - Clear the current input field
+- `Ctrl+C` / `Esc` - Quit the application
+- `Enter` - Submit input or retry after error
+
+**Smart Features:**
+- Your last prompt is automatically saved and pre-filled on the next run
+- After an error (e.g., moderation block), press Enter to retry with the previous prompt pre-filled for easy editing
+
 ### Non-Interactive CLI Mode
 
 ```bash
@@ -82,7 +91,10 @@ output_dir = "/Users/username/Desktop"
 model = "sora-2"
 duration = "4"
 size = "1280x720"
+last_prompt = "A sunset over the ocean"
 ```
+
+The `last_prompt` field is automatically saved after each video generation and is pre-filled when you restart the application.
 
 ## License
 
