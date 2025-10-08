@@ -1,4 +1,4 @@
-# TelemetryOS Video Generator Configuration
+# Video Generator Configuration
 # Copy this file to ~/.config/telemetryos-video-gen.toml and update with your values
 
 # Your OpenAI API key (required)

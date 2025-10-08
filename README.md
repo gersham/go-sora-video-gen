@@ -1,4 +1,4 @@
-# TelemetryOS Video Generator
+# Video Generator
 
 CLI tool for generating videos using OpenAI's Sora API. Interactive TUI and non-interactive modes supported.
 

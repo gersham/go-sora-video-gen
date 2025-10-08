@@ -784,7 +784,7 @@ func (m Model) downloadVideo() tea.Cmd {
 func (m Model) View() string {
 	var sb strings.Builder
 
-	sb.WriteString(titleStyle.Render("TelemetryOS Video Generator (Sora)"))
+	sb.WriteString(titleStyle.Render("Video Generator (Sora)"))
 	sb.WriteString("\n\n")
 
 	switch m.state {

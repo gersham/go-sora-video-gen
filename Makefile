@@ -1,4 +1,4 @@
-# TelemetryOS Video Generator - Build Configuration
+# Video Generator - Build Configuration
 .PHONY: all build build-all clean dist help
 
 # Binary name
