@@ -81,6 +81,35 @@ The TUI guides you through video generation. On first run, you'll enter your Ope
 | `-o` | Output directory | `~/Desktop` |
 | `-d` | Enable debug mode | `false` |
 
+## Reference Images
+
+When using the `-r` flag to provide a reference image, the image is automatically processed to match your selected video dimensions:
+
+**How It Works:**
+- **Automatic Resizing & Cropping** - Your image is resized and center-cropped to exactly match the video dimensions
+- **Cover Strategy** - The image is scaled to cover the entire frame, then cropped to fit (similar to CSS `background-size: cover`)
+- **Preserves Quality** - Images are processed at 95% JPEG quality to maintain visual fidelity
+
+**Tips for Best Results:**
+- **Match Aspect Ratios** - For best results, use images with similar aspect ratios to your target video size:
+  - `1280x720` or `1792x1024` → Use landscape images (16:9 or 16:10)
+  - `720x1280` or `1024x1792` → Use portrait images (9:16 or 10:16)
+- **Avoid Important Edge Content** - Keep important subjects centered, as edges may be cropped
+- **Use High Resolution** - Start with images at least as large as your target dimensions
+- **Supported Formats** - JPEG, PNG, and GIF
+
+**Examples:**
+```bash
+# Landscape video with landscape reference image (best match)
+./video-gen -p "Ocean waves" -s 1280x720 -r ~/Photos/beach.jpg
+
+# Portrait video with portrait reference image (best match)
+./video-gen -p "City street" -s 720x1280 -r ~/Photos/portrait.jpg
+
+# Landscape video with portrait image (will crop sides)
+./video-gen -p "Sunset" -s 1920x1080 -r ~/Photos/tall-image.jpg
+```
+
 ## Configuration
 
 Config file: `~/.config/telemetryos-video-gen.toml`
