@@ -1,0 +1,24 @@
+# TelemetryOS Video Generator Configuration
+# Copy this file to ~/.config/telemetryos-video-gen.toml and update with your values
+
+# Your OpenAI API key (required)
+# Get your key from: https://platform.openai.com/api-keys
+openai_api_key = "sk-proj-..."
+
+# Output directory for generated videos (optional)
+# Defaults to ~/Desktop if not specified
+output_dir = "/Users/username/Desktop"
+
+# Preferred model (optional)
+# User-friendly: "sora" (fast) or "sora-pro" (quality)
+# API names: "sora-2" or "sora-2-pro"
+model = "sora-2"
+
+# Default video duration in seconds (optional)
+# Range: 1-60, default: 4
+duration = "4"
+
+# Default video size (optional)
+# Options: "1280x720" (Landscape HD, default), "720x1280" (Portrait HD),
+#          "1792x1024" (Landscape Wide), "1024x1792" (Portrait Wide)
+size = "1280x720"

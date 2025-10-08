@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip
+
+      - name: Build all platforms
+        run: make build-all VERSION=${{ steps.version.outputs.VERSION }}
+
+      - name: Create distribution archives
+        run: make dist VERSION=${{ steps.version.outputs.VERSION }}
+
+      - name: Generate checksums
+        working-directory: ./releases
+        run: |
+          sha256sum *.tar.gz *.zip > checksums.txt
+          cat checksums.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            releases/*.tar.gz
+            releases/*.zip
+            releases/checksums.txt
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            ## Installation
+
+            Download the archive for your platform:
+
+            ### macOS
+            - **Apple Silicon (M1/M2/M3)**: `video-gen-darwin-arm64.tar.gz`
+            - **Intel**: `video-gen-darwin-amd64.tar.gz`
+
+            ### Linux
+            - **x64**: `video-gen-linux-amd64.tar.gz`
+            - **ARM64**: `video-gen-linux-arm64.tar.gz`
+
+            ### Windows
+            - **x64**: `video-gen-windows-amd64.zip`
+
+            ## Quick Start
+
+            ```bash
+            # macOS/Linux
+            tar -xzf video-gen-*.tar.gz
+            cd video-gen
+            ./video-gen
+
+            # Windows
+            # Extract ZIP and run video-gen.exe
+            ```
+
+            ## What's Included
+
+            - Optimized binary (~6.5MB)
+            - README.md documentation
+            - LICENSE file
+            - Configuration example
+
+            ## Verification
+
+            Verify download integrity using SHA256 checksums from `checksums.txt`.
+
+            ## Documentation
+
+            - [Quick Start Guide](https://github.com/telemetry/video-gen/blob/main/QUICKSTART.md)
+            - [Complete Documentation](https://github.com/telemetry/video-gen/blob/main/README.md)
+            - [Troubleshooting](https://github.com/telemetry/video-gen/blob/main/TROUBLESHOOTING.md)
+            - [Build Guide](https://github.com/telemetry/video-gen/blob/main/BUILD.md)
+
+            ## Requirements
+
+            - OpenAI API key with Sora access
+            - Internet connection
+            - ~500MB free disk space
+
+            ---
+
+            **Full Changelog**: https://github.com/telemetry/video-gen/compare/${{ github.event.before }}...${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
